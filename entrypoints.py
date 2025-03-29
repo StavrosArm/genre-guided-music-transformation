@@ -27,7 +27,7 @@ def test(path: str):
     train(config)
     click.echo("Testing procedure complete.")
 
-@cli.command(name = "Inference sample")
+@cli.command(name = "inference_song")
 @click.option('--model_path', required=True, help='Path to the model')
 @click.option('--song', required=True, help='Path to the song sample.')
 def predict(model, sample):
