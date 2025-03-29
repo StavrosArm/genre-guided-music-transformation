@@ -1,0 +1,40 @@
+model:
+  model_name: ""
+
+optimizer:
+  optimizer_name: "Adam"
+  lr: ""
+  weight_decay: ""
+  scheduler: ""
+  scheduler_steps: ""
+
+loss: ""
+
+dataset:
+  train_dir: ""
+  val_dir: ""
+  test_dir: ""
+
+feature_extractor:
+  input_signal: ""
+  n_fft: ""
+  max_length: ""
+
+training:
+  lr: ""
+  optimizer: ""
+  epochs: ""
+  dropout_prob: ""
+  early_stopping: ""
+  checkpoint_epochs: ""
+  checkpoint_dir: ""
+
+experiment:
+  log: "wandb"
+  experiment_group: ""
+  experiment_name: ""
+
+
+
+
+
