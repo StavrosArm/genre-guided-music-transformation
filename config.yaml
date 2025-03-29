@@ -1,0 +1,43 @@
+model:
+  model_name: ""
+  linear_layer_dim: ""
+  blocks: ""
+
+optimizer:
+  optimizer_name: "AdamW"
+  lr: "1e-5"
+  weight_decay: ""
+  scheduler: "StepLR"
+  scheduler_steps: ""
+
+loss: ""
+
+dataset:
+  train_dir: "data/train"
+  val_dir: "data/val"
+  test_dir: "data/test"
+
+feature_extractor:
+  n_fft: ""
+  max_length: ""
+  n_mels: ""
+
+training:
+  lr: ""
+  optimizer: ""
+  epochs: ""
+  dropout_prob: ""
+  early_stopping: ""
+  checkpoint_epochs: ""
+  checkpoint_dir: "checkpoints/"
+
+experiment:
+  log: "wandb"
+  experiment_group: "sta-armeniakos-athens-university-of-economics-and-business"
+  project: "deep-learning"
+  experiment_name: "baseline-experiment"
+
+
+
+
+

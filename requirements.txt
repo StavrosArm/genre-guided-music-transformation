@@ -7,3 +7,4 @@ librosa
 torchaudio
 click
 tqdm
+wandb
