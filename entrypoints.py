@@ -1,6 +1,7 @@
 import click
 from config import Config
 from trainer.train import train
+from inference.predict import predict_song
 
 
 @click.group()
@@ -28,11 +29,12 @@ def test(path: str):
     click.echo("Testing procedure complete.")
 
 @cli.command(name = "inference_song")
-@click.option('--model_path', required=True, help='Path to the model')
 @click.option('--song', required=True, help='Path to the song sample.')
-def predict(model, sample):
+def predict(song: str):
     """Make a prediction with the trained model."""
     click.echo("Initiating inference procedure ...")
+    prediction = predict_song(song)
+    click.echo(prediction)
     click.echo("Inference on song sample complete.")
 
 
