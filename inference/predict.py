@@ -13,5 +13,5 @@ def predict_song(path: str, config: Config = "./config.yaml" ) -> np.ndarray:
     mel_extractor = MelExtractor(config)
     mel = mel_extractor([path])
     model = MusicModel(config)
-    prediction = model(*mel).numpy()
+    prediction = model(*mel).detach().numpy()
     return prediction
