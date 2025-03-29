@@ -17,8 +17,6 @@ def train(path: str):
     train(config)
     click.echo("Training procedure complete.")
 
-
-
 @cli.command(name = "test")
 @click.option('--config_path', required=True, help='Path to the configuration file.')
 def test(path: str):
