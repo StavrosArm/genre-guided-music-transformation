@@ -8,3 +8,4 @@ torchaudio
 click
 tqdm
 wandb
+pandas
