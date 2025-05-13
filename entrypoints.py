@@ -41,7 +41,7 @@ def predict(song: str):
 
 @cli.command(name = "distort_songs")
 @click.option('--songs', required=True, help='Path to the song samples.')
-def predict(songs: str):
+def distort_songs(songs: str):
     """Distort a song to match rock genre."""
     click.echo("Initiating inference procedure ...")
     distort_songs(songs)

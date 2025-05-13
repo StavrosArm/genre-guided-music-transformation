@@ -14,9 +14,13 @@ loss:
   name: "cross-entropy"
 
 dataset:
-  train_dir: "data/train"
-  val_dir: "data/val"
-  test_dir: "data/test"
+  audio_dir: "audios"
+  train:
+    train_csv: "csv_files/train.csv"
+  val:
+    val_csv: "csv_files/val.csv"
+  test:
+    test_csv: "csv_files/test.csv"
 
 training:
   lr: ""
@@ -34,7 +38,8 @@ experiment:
   project: "deep-learning"
   experiment_name: "baseline-experiment"
 
-
+distortion:
+  genre: "rock"
 
 
 
