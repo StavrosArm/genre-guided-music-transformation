@@ -13,6 +13,7 @@ class MusicModel(nn.Module):
         super().__init__()
         self.config = config
         self.encoder = Wav2Vec2Model.from_pretrained(self.config.model.model_name)
+
         if freeze_encoder:
             for param in self.encoder.parameters():
                 param.requires_grad = False
