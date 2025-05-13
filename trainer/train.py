@@ -14,7 +14,7 @@ def train(config):
     model = MusicModel(config).to(device)
 
     train_data = FMADataset(config)
-    val_data = FMADataset(config)
+    val_data = FMADataset(config, mode = "val")
 
     train_loader = get_dataloader(train_data, batch_size=config.training.batch_size, num_workers=1, shuffle=True)
     val_loader = get_dataloader(val_data, batch_size=config.training.batch_size, num_workers=1, shuffle=False)
