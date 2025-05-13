@@ -1,7 +1,7 @@
 model:
-  model_name: ""
-  linear_layer_dim: ""
-  blocks: ""
+  model_name: "facebook/wav2vec2-base"
+  hidden_size: 768
+  num_labels: 8
 
 optimizer:
   optimizer_name: "AdamW"
@@ -10,17 +10,13 @@ optimizer:
   scheduler: "StepLR"
   scheduler_steps: ""
 
-loss: ""
+loss:
+  name: "cross-entropy"
 
 dataset:
   train_dir: "data/train"
   val_dir: "data/val"
   test_dir: "data/test"
-
-feature_extractor:
-  n_fft: ""
-  max_length: ""
-  n_mels: ""
 
 training:
   lr: ""
@@ -33,6 +29,7 @@ training:
 
 experiment:
   log: "wandb"
+  log_every_n_steps: 30
   experiment_group: "sta-armeniakos-athens-university-of-economics-and-business"
   project: "deep-learning"
   experiment_name: "baseline-experiment"
