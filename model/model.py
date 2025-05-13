@@ -13,8 +13,9 @@ class MusicModel(nn.Module):
         super().__init__()
         self.config = config
         self.encoder = Wav2Vec2Model.from_pretrained(self.config.model.model_name)
-        for param in self.encoder.parameters():
-            param.requires_grad = False
+        if freeze_encoder:
+            for param in self.encoder.parameters():
+                param.requires_grad = False
 
         self.classifier = nn.Linear(self.config.model.hidden_size, self.config.model.num_labels)
 
