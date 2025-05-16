@@ -6,15 +6,25 @@ import os
 
 
 class FMADataset(Dataset):
-    def __init__(self, csv_path, audio_dir, target_sr=16000):
+    def __init__(self, config, mode = "train", target_sr=16000):
         """
         csv_path: path to the metadata CSV
         audio_dir: base directory for audio files
         target_sr: target sample rate
         transform: optional additional transform (e.g. spectrogram)
         """
+        self.config = config
+        if mode == "train":
+            csv_path = self.config.dataset.train.train_csv
+        elif mode == "val":
+            csv_path = self.config.dataset.val.val_csv
+        elif mode == "test":
+            csv_path = self.config.dataset.test.test_csv
+        else:
+            raise ValueError(f"Invalid mode: {mode}")
+
         self.df = pd.read_csv(csv_path)
-        self.audio_dir = audio_dir
+        self.audio_dir = self.config.dataset.audio_dir
         self.target_sr = target_sr
         unique_labels = sorted(self.df['genre_top'].dropna().unique())
         self.label_to_idx = {label: idx for idx, label in enumerate(unique_labels)}
