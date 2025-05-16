@@ -24,7 +24,7 @@ class Config:
         with open(self.config_path, 'r') as f:
             cfg = yaml.safe_load(f)
 
-        for section in ["model", "optimizer", "loss", "dataset", "training", "experiment"]:
+        for section in ["model", "optimizer", "loss", "dataset", "training", "experiment", "distortion"]:
             setattr(self, section, Namespace(cfg.get(section, {})))
 
     def __repr__(self):
