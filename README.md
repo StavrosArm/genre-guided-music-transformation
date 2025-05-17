@@ -1,8 +1,7 @@
 # 🎧 Fine-Tuning Wav2Vec for Genre Classification on FMA
 
-This project fine-tunes Facebook AI's [Wav2Vec 2.0](https://github.com/pytorch/fairseq/tree/main/examples/wav2vec) for **music genre classification** using the [FMA (Free Music Archive)](https://github.com/mdeff/fma) dataset. The model learns directly from raw audio waveforms to classify tracks into genres such as **rock**, **jazz**, **hip-hop**, and more.
+This project fine-tunes Facebook AI's [Wav2Vec 2.0](https://github.com/pytorch/fairseq/tree/main/examples/wav2vec) model for **music genre classification** using the [FMA (Free Music Archive)](https://github.com/mdeff/fma) dataset. The model operates directly on raw audio waveforms and classifies tracks into genres such as **rock**, **jazz**, **hip-hop**, and more. This project was developed as part of the *Deep Learning* course in the MSc in Computer Science program at the **Athens University of Economics and Business**, during the **Spring Semester of 2025**.
 
----
 
 ## 🧠 Key Features
 
@@ -37,7 +36,8 @@ This project fine-tunes Facebook AI's [Wav2Vec 2.0](https://github.com/pytorch/f
 │    ├── audio_utils.py       # Audio utilities
 │    ├── corrupt_files.py     # Checks for corrupted files
 │    └── seed.py              # Random seed function
-└── requirements.txt
+├── requirements.txt
+└── report.pdf
 ```
 
 ---
@@ -156,6 +156,9 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## 📬 Contact
 
-For questions or collaboration, feel free to open an issue or get in touch!
+For questions, feedback, or collaboration inquiries, feel free to open an issue or reach out via email:
+
+- 📧 [sta.armeniakos@aueb.gr](mailto:sta.armeniakos@aueb.gr)
+- 📧 [fot.bistas@aueb.gr](mailto:fot.bistas@aueb.gr)
 
 ---
