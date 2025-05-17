@@ -3,13 +3,16 @@ import torch
 import wandb
 from tqdm import tqdm
 
+from utils.seed import set_seed
 from model.model import MusicModel
 from dataset.dataset import FMADataset
 from factories.dataloader import get_dataloader
 from factories.loss import get_loss_function
 from factories.optimizer import get_optimizer, get_scheduler
 
+
 def train(config):
+    set_seed(config)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     model = MusicModel(config).to(device)
