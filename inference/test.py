@@ -10,6 +10,12 @@ from utils.seed import set_seed
 
 
 def test(config):
+    """
+    Initiates testing procedure.
+
+    :param config: The configuration file.
+    :return: All metrics together with the predictions of the model.
+    """
     set_seed(config)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
