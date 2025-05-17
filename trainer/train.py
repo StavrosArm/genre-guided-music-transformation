@@ -1,3 +1,4 @@
+import click
 import torch
 import wandb
 from tqdm import tqdm
@@ -19,9 +20,9 @@ def train(config):
     train_loader = get_dataloader(train_data, batch_size=config.training.batch_size, num_workers=1, shuffle=True)
     val_loader = get_dataloader(val_data, batch_size=config.training.batch_size, num_workers=1, shuffle=False)
 
-    criterion = get_loss_function(config.loss)
+    criterion = get_loss_function(config)
     optimizer = get_optimizer(config, model.parameters())
-    scheduler = get_scheduler(config, optimizer)
+    scheduler = get_scheduler(config, len(train_loader), optimizer)
 
     use_wandb = config.experiment.log == "wandb"
     if use_wandb:
@@ -35,13 +36,13 @@ def train(config):
     best_val_loss = float('inf')
     global_step = 0
     epochs = config.training.epochs
+    early_stopping_counter = 0
 
     for epoch in range(epochs):
-        print(f"\nEpoch {epoch + 1}/{epochs}")
         model.train()
         total_loss = 0
 
-        train_bar = tqdm(train_loader, desc="Training", leave=False)
+        train_bar = tqdm(train_loader, desc=f"Training epoch: {epoch+1}/{epochs}", leave=False)
 
         for batch_idx, batch in enumerate(train_bar):
             inputs, labels = batch
@@ -52,6 +53,8 @@ def train(config):
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
+            if scheduler:
+                scheduler.step()
 
             total_loss += loss.item()
             train_bar.set_postfix(loss=loss.item())
@@ -59,12 +62,15 @@ def train(config):
             if use_wandb and global_step % config.experiment.log_every_n_steps == 0:
                 wandb.log({
                     "train/loss": loss.item(),
-                    "train/step": global_step,
-                    "epoch": epoch + 1
+                    "train/learning_rate": scheduler.get_last_lr()[0] if scheduler else optimizer.param_groups[0]["lr"],
                 })
             global_step += 1
 
         avg_train_loss = total_loss / len(train_loader)
+
+        wandb.log({
+            "train/epoch_loss": avg_train_loss
+        })
         print(f"Train Loss: {avg_train_loss:.4f}")
 
         model.eval()
@@ -91,20 +97,27 @@ def train(config):
         avg_val_loss = val_loss / len(val_loader)
         val_acc = correct / total
 
+        print(f"Validation Loss: {avg_val_loss:.4f}")
+        print(f"Validation Accuracy: {val_acc:.4f}")
+
 
         if use_wandb:
             wandb.log({
-                "val/loss": avg_val_loss,
-                "val/accuracy": val_acc,
-                "epoch": epoch + 1
+                "val/epoch_loss": avg_val_loss,
+                "val/epoch_accuracy": val_acc,
             })
 
-        if scheduler:
-            scheduler.step()
 
-        if avg_val_loss < best_val_loss:
+        if avg_val_loss <= best_val_loss:
+            early_stopping_counter = 0
             best_val_loss = avg_val_loss
             torch.save(model.state_dict(), f"{config.training.checkpoint_dir}/best_model.pt")
+        else:
+            early_stopping_counter += 1
+            if early_stopping_counter > config.training.patience:
+                click.echo(f"Stopped training due to no improvement in validation loss for {config.training.patience} number of epochs")
+                click.echo(f"Model with best validation loss saved at checkpoint {config.training.checkpoint_dir}/best_model.pt")
+
 
 
     if use_wandb:
