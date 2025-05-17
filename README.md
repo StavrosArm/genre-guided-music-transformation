@@ -79,7 +79,9 @@ python entrypoints.py initiate_training --config_path=config.yaml
 ```
 
 Starts training using the configuration provided. Logs training and validation metrics to **WandB** and saves the best model checkpoint.
- If you don't have a wandb account set the logging in the config file equal to `None`.
+If you don't have a wandb account set the logging in the config file equal to `None`.
+
+
 ---
 
 ### ✅ Test the Model
@@ -124,29 +126,6 @@ During testing, the following metrics are logged via **Weights & Biases**:
 - Recall (weighted)
 - F1 Score (weighted)
 - Full `classification_report` from `sklearn`
-
----
-
-## 🧰 Requirements
-
-- numpy
-- scikit-learn
-- torch
-- transformers
-- librosa
-- torchaudio
-- click
-- tqdm
-- wandb
-- pandas
-
-Install all dependencies with:
-
-```bash
-pip install -r requirements.txt
-```
-
----
 
 ## 🤝 Contributing
 
