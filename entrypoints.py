@@ -2,7 +2,7 @@ import click
 from config import Config
 from trainer.train import train
 from inference.test import test
-from inference.song_distortion import distort_songs
+from inference.song_distortion import distort_song
 from inference.predict import predict_song
 
 
@@ -44,7 +44,7 @@ def predict(song: str):
 def distort_songs(songs: str):
     """Distort a song to match rock genre."""
     click.echo("Initiating song's genre distortion procedure ...")
-    distort_songs(songs)
+    distort_song(songs)
     click.echo("Songs genre distortion complete.")
 
 
