@@ -5,16 +5,14 @@ model:
 
 optimizer:
   optimizer_name: "AdamW"
-  lr: "1e-5"
-  weight_decay: ""
-  scheduler: "StepLR"
-  scheduler_steps: ""
+  lr: 1e-4
+  weight_decay: 1e-5
+  scheduler: "linear"
+  warmup_steps: 0.1
 
-loss:
-  name: "cross-entropy"
 
 dataset:
-  audio_dir: "audios"
+  audio_dir: "fma_small"
   train:
     train_csv: "csv_files/train.csv"
   val:
@@ -22,18 +20,19 @@ dataset:
   test:
     test_csv: "csv_files/test.csv"
 
+loss:
+  type: "cross-entropy"
+
 training:
-  lr: ""
-  optimizer: ""
-  epochs: ""
-  dropout_prob: ""
-  early_stopping: ""
-  checkpoint_epochs: ""
+  batch_size: 32
+  epochs: 10
+  dropout_prob: 0.4
+  patience: 5
   checkpoint_dir: "checkpoints/"
 
 experiment:
   log: "wandb"
-  log_every_n_steps: 30
+  log_every_n_steps: 10
   experiment_group: "sta-armeniakos-athens-university-of-economics-and-business"
   project: "deep-learning"
   experiment_name: "baseline-experiment"
