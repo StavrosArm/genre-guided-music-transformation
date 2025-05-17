@@ -36,7 +36,6 @@ def get_scheduler(config, steps_per_epoch, optimizer):
     total_epochs = config.training.epochs
     total_steps = total_epochs * steps_per_epoch
     warmup_steps = config.optimizer.warmup_steps * total_steps
-    print(f"Warming up the lr for {warmup_steps}")
 
     if scheduler_name == "linear":
         def lr_lambda(current_step):
