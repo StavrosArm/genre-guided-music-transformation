@@ -21,21 +21,21 @@ def get_optimizer(config, model_params):
         raise ValueError(f"Unsupported optimizer: {optimizer_name}")
 
 
-def get_scheduler(config, optimizer):
+def get_scheduler(config, steps_per_epoch, optimizer):
     """
     Creates and returns a linear learning rate scheduler with optional warmup using PyTorch's LambdaLR.
 
     :param config: Configuration object containing scheduler settings, such as scheduler type,
                    number of epochs, warmup steps, and steps per epoch.
     :param optimizer: The optimizer instance to apply the learning rate schedule to.
+    :param steps_per_epoch: The number of steps per epoch.
     :return: A torch.optim.lr_scheduler.LambdaLR scheduler instance, or None if scheduler is disabled.
     :raises ValueError: If the scheduler name is unsupported.
     """
     scheduler_name = config.optimizer.scheduler.lower()
     total_epochs = config.training.epochs
-    steps_per_epoch = config.training.steps_per_epoch
     total_steps = total_epochs * steps_per_epoch
-    warmup_steps = int(getattr(config.optimizer, "warmup_steps", 0.1 * total_steps))
+    warmup_steps = config.optimizer.warmup_steps * total_steps
 
     if scheduler_name == "linear":
         def lr_lambda(current_step):

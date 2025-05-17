@@ -18,7 +18,8 @@ class MusicModel(nn.Module):
             for param in self.encoder.parameters():
                 param.requires_grad = False
 
-        self.classifier = nn.Linear(self.config.model.hidden_size, self.config.model.num_labels)
+        self.classifier = nn.Sequential(nn.GELU(), nn.Dropout(self.config.training.dropout_prob),
+                                        nn.Linear(self.config.model.hidden_size, self.config.model.num_labels))
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """

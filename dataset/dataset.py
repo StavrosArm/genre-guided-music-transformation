@@ -1,6 +1,7 @@
 from torch.utils.data import Dataset
 import torchaudio
 from utils.audio_utils import prepare_audio
+import warnings
 import pandas as pd
 import os
 
@@ -35,16 +36,20 @@ class FMADataset(Dataset):
     def __getitem__(self, idx):
         row = self.df.iloc[idx]
         audio_path = os.path.join(self.audio_dir, row['path_to_audio'])
-        waveform, sr = torchaudio.load(audio_path)
+        try:
+            waveform, sr = torchaudio.load(audio_path)
 
-        audio = prepare_audio(
-            waveform,
-            sr,
-            int(row['start']),
-            int(row['end']),
-            float(row['noise_ratio']),
-            target_sr=self.target_sr
-        )
+            audio = prepare_audio(
+                waveform,
+                sr,
+                int(row['start']),
+                int(row['end']),
+                float(row['noise_ratio']),
+                target_sr=self.target_sr
+            )
 
-        label = self.label_to_idx[row['genre_top']]
-        return audio, label
+            label = self.label_to_idx[row['genre_top']]
+            return audio, label
+        except Exception as e:
+            warnings.warn(f"Failed to load audio from {audio_path}: {e}")
+            return self.__getitem__((idx + 1) % self.__len__())
