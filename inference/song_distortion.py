@@ -75,6 +75,7 @@ def distort_song(config):
             proximity_loss = norm_lambda * F.mse_loss(waveform, original_waveform)
             total_loss = kl_loss + proximity_loss
 
+            #TODO: Consider mse loss
             if kl_loss.item() < threshold:
                 break
 
