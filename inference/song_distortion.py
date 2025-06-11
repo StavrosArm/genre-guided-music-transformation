@@ -75,12 +75,14 @@ def distort_song(config):
             proximity_loss = norm_lambda * F.mse_loss(waveform, original_waveform)
             total_loss = kl_loss + proximity_loss
 
-            #TODO: Consider mse loss
-            if kl_loss.item() < threshold:
+            if total_loss.item() < threshold:
                 break
 
             total_loss.backward()
             optimizer.step()
+
+            with torch.no_grad():
+                waveform.clamp(-1.0,  1.0)
 
         save_path = os.path.join(target_dir, os.path.basename(filename))
         torchaudio.save(save_path, waveform.detach().cpu(), 16000)
