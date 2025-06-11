@@ -1,18 +1,18 @@
 import torch
 import torch.nn as nn
-from transformers import Wav2Vec2Model
+from transformers import AutoModel
 from types import SimpleNamespace
 
 
 class MusicModel(nn.Module):
     def __init__(self, config, freeze_encoder = True):
         """
-        Init function. Loads, the wav2vec model, and initializes a linear layer targeting the genre classes.
+        Init function. Loads, the music2vec model, and initializes a linear layer targeting the genre classes.
         By default, the encoder's weights are frozen.
         """
         super().__init__()
         self.config = config
-        self.encoder = Wav2Vec2Model.from_pretrained(self.config.model.model_name)
+        self.encoder = AutoModel.from_pretrained(self.config.model.model_name)
 
         if freeze_encoder:
             for param in self.encoder.parameters():

@@ -1,6 +1,6 @@
-# 🎧 Fine-Tuning Wav2Vec for Genre Classification on FMA
+# 🎧 Fine-Tuning Music2Vec for Genre Classification on FMA
 
-This project fine-tunes Facebook AI's [Wav2Vec 2.0](https://github.com/pytorch/fairseq/tree/main/examples/wav2vec) model for **music genre classification** using the [FMA (Free Music Archive)](https://github.com/mdeff/fma) dataset. The model operates directly on raw audio waveforms and classifies tracks into genres such as **rock**, **jazz**, **hip-hop**, and more. This project was developed as part of the *Deep Learning* course in the MSc in Computer Science program at the **Athens University of Economics and Business**, during the **Spring Semester of 2025**.
+This project fine-tunes Facebook AI's [msuic2vec] model for **music genre classification** using the [FMA (Free Music Archive)](https://github.com/mdeff/fma) dataset. The model operates directly on raw audio waveforms and classifies tracks into genres such as **rock**, **jazz**, **hip-hop**, and more. This project was developed as part of the *Deep Learning* course in the MSc in Computer Science program at the **Athens University of Economics and Business**, during the **Spring Semester of 2025**.
 
 
 ## 🧠 Key Features
