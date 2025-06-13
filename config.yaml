@@ -38,9 +38,11 @@ experiment:
   experiment_name: "experiment-lr-1e-3"
 
 distortion:
+  model_name: "mtg-upf/discogs-maest-10s-pw-129e"
   audios_csv: "gtzan.csv"
   audio_dir: "gtzan/"
   target_dir: "distortion/"
+  fad_txt: "fad.txt"
   genre: "rock"
   norm_lambda: 1e-3
   loss: "kl-divergence"

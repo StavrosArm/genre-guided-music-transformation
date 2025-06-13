@@ -1,7 +1,7 @@
 import click
 from config import Config
 from trainer.train import train
-from inference.test import test
+from inference.evaluation import test, evaluate_music_quality
 from inference.song_distortion import distort_song
 from inference.predict import predict_song
 
@@ -10,7 +10,8 @@ from inference.predict import predict_song
 def cli():
     pass
 
-@cli.command(name = "initiate_training")
+
+@cli.command(name="initiate_training")
 @click.option('--config_path', required=True, help='Path to the configuration file.', default="config.yaml")
 def initiate_training(config_path: str):
     """ Initiates training procedure given the configuration file """
@@ -20,7 +21,8 @@ def initiate_training(config_path: str):
     train(config)
     click.echo("Training procedure complete.")
 
-@cli.command(name = "initiate_testing")
+
+@cli.command(name="initiate_testing")
 @click.option('--config_path', required=True, help='Path to the configuration file.')
 def initiate_testing(path: str):
     """ Inferences the model on the test set and logs them to wandb. """
@@ -28,9 +30,11 @@ def initiate_testing(path: str):
     config = Config(path)
     click.echo("Initiating testing procedure ...")
     test(config)
+    evaluate_music_quality(config)
     click.echo("Testing procedure complete.")
 
-@cli.command(name = "inference_song")
+
+@cli.command(name="inference_song")
 @click.option('--song', required=True, help='Path to the song sample.')
 def predict(song: str):
     """Make a prediction with the trained model."""
@@ -39,7 +43,8 @@ def predict(song: str):
     click.echo(prediction)
     click.echo("Inference on song sample complete.")
 
-@cli.command(name = "distort_songs")
+
+@cli.command(name="distort_songs")
 @click.option('--songs', required=True, help='Path to the song samples.')
 def distort_songs(songs: str):
     """Distort a song to match rock genre."""
