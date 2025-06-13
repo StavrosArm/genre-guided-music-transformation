@@ -34,6 +34,6 @@ def prepare_audio(audio: torch.Tensor, sample_rate: int, start: int, end: int, n
         noise = torch.randn_like(audio) * noise_ratio
         audio = audio + noise
 
-    return audio.squeeze(0)
+    return audio.squeeze(0).clamp(-1.0, 1.0)
 
 
