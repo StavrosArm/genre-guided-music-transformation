@@ -5,7 +5,7 @@ This project fine-tunes Facebook AI's [msuic2vec] model for **music genre classi
 
 ## 🧠 Key Features
 
-- Fine-tunes a Wav2Vec 2.0 model on raw waveform data
+- Fine-tunes a Music2Vec 2.0 model on raw waveform data
 - Supports training, evaluation, prediction, and genre manipulation
 - Full experiment tracking with **Weights & Biases**
 - Evaluation with **scikit-learn** classification metrics
