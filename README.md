@@ -39,6 +39,10 @@ This project fine-tunes Facebook AI's [msuic2vec] model for **music genre classi
 │   ├── cross_appearance.ipynb
 │   ├── genre_top_per_sample.ipynb
 │   └── process_tracks_csv.ipynb
+├── png
+│    ├── co-occurence.png
+│    ├── genre_and_average_duration.png
+│    └── track_count_for_duration.png
 ├── utils/
 │    ├── audio_utils.py       # Audio utilities
 │    ├── corrupt_files.py     # Checks for corrupted files
@@ -54,11 +58,11 @@ This project fine-tunes Facebook AI's [msuic2vec] model for **music genre classi
 To better understand the relationships between genres, we performed an exploratory data analysis (EDA) on the dataset. 
 
 - Co-occurence matrix
-![Sub-Genre Co-occurrence Heatmap](co-occurence.png)
+![Sub-Genre Co-occurrence Heatmap](png/co-occurence.png)
 - Sample count per duration
-![Sample count for a specific duration](track_count_for_duration.png)
+![Sample count for a specific duration](png/track_count_for_duration.png)
 - Average duration per genre
-![Average duration per genre](genre_and_average_duration.png)
+![Average duration per genre](png/genre_and_average_duration.png)
 
 
 ## Setup
