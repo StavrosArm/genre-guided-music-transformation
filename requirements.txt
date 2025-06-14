@@ -1,11 +1,11 @@
 numpy
 scikit-learn
-torch
-transformers
+#torch
+#transformers
 librosa
-torchaudio
+#torchaudio
 click
 tqdm
 wandb
-pandas
+#pandas
 onnxruntime
