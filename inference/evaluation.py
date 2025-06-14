@@ -7,6 +7,23 @@ from model.model import MusicModel
 from dataset.dataset import FMADataset
 from factories.dataloader import get_dataloader
 from utils.seed import set_seed
+from utils.fad_distance import calculate_fad_distance
+from model.maest import Maest
+
+
+def evaluate_music_quality(config):
+    """
+    Takes as input a csv files containing the paths of distorted songs and real rock genre songs.
+    Inferences MAEST to produce music embeddings and calculates the Frechet Audio Distance between them.
+
+    :param config: The configuration file.
+    :return: The FAD of real music embeddings and distorted music embeddings.
+    """
+    embeddings_model = Maest(config)
+    real_embeddings, distorted_embeddings = embeddings_model.get_embeddings_for_fad_calculation(config)
+    fad_distance = calculate_fad_distance(real_embeddings, distorted_embeddings)
+    with open(config.distortion.fad_txt, "w") as f:
+        f.write(f"FAD Distance: {fad_distance:.6f}\n")
 
 
 def test(config):
