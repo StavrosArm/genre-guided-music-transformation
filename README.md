@@ -1,9 +1,9 @@
-# 🎧 Fine-Tuning Music2Vec for Genre Classification on FMA
+# Fine-Tuning Music2Vec for Genre Classification on FMA
 
 This project fine-tunes Facebook AI's [msuic2vec] model for **music genre classification** using the [FMA (Free Music Archive)](https://github.com/mdeff/fma) dataset. The model operates directly on raw audio waveforms and classifies tracks into genres such as **rock**, **jazz**, **hip-hop**, and more. This project was developed as part of the *Deep Learning* course in the MSc in Computer Science program at the **Athens University of Economics and Business**, during the **Spring Semester of 2025**.
 
 
-## 🧠 Key Features
+## Key Features
 
 - Fine-tunes a Music2Vec 2.0 model on raw waveform data
 - Supports training, evaluation, prediction, and genre manipulation
@@ -12,7 +12,7 @@ This project fine-tunes Facebook AI's [msuic2vec] model for **music genre classi
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 .
@@ -32,6 +32,13 @@ This project fine-tunes Facebook AI's [msuic2vec] model for **music genre classi
 │    ├── dataloader.py        # The factory for the DataLoader
 │    ├── loss.py              # The loss factory
 │    └── optimizer.py         # Optimizer and Scheduler factory
+├── eda
+│   ├── all_genres_per_sample.ipynb
+│   ├── average_duration.ipynb
+│   ├── create_mapping.ipynb
+│   ├── cross_appearance.ipynb
+│   ├── genre_top_per_sample.ipynb
+│   └── process_tracks_csv.ipynb
 ├── utils/
 │    ├── audio_utils.py       # Audio utilities
 │    ├── corrupt_files.py     # Checks for corrupted files
@@ -42,7 +49,19 @@ This project fine-tunes Facebook AI's [msuic2vec] model for **music genre classi
 
 ---
 
-## 🛠️ Setup
+## Exploratory Data Analysis 
+
+To better understand the relationships between genres, we performed an exploratory data analysis (EDA) on the dataset. 
+
+- Co-occurence matrix
+![Sub-Genre Co-occurrence Heatmap](co-occurence.png)
+- Sample count per duration
+![Sample count for a specific duration](track_count_for_duration.png)
+- Average duration per genre
+![Average duration per genre](genre_and_average_duration.png)
+
+
+## Setup
 
 ### 1. Create and activate virtual environment
 
@@ -59,20 +78,20 @@ pip install -r requirements.txt
 
 ---
 
-## 📦 Data and Model Weights
+## Data and Model Weights
 
-- 🧾 **Dataset CSVs**: [Download CSVs (train, val, test)](https://your-dataset-link.com)
-- 🧠 **Model Weights**: [Pretrained model checkpoint](https://your-model-weights-link.com)
+- **Dataset CSVs**: [Download CSVs (train, val, test)](https://your-dataset-link.com)
+- **Model Weights**: [Pretrained model checkpoint](https://your-model-weights-link.com)
 
 Ensure your `config.yaml` points to the correct CSVs and checkpoint paths.
 
 ---
 
-## 🚀 How to Use
+## How to Use
 
 All functionality is handled via the `entrypoints.py` command-line interface.
 
-### 🔧 Train the Model
+### Train the Model
 
 ```bash
 python entrypoints.py initiate_training --config_path=config.yaml
@@ -84,7 +103,7 @@ If you don't have a wandb account set the logging in the config file equal to `N
 
 ---
 
-### ✅ Test the Model
+### Test the Model
 
 ```bash
 python entrypoints.py initiate_testing --config_path=config.yaml
@@ -94,7 +113,7 @@ Evaluates the model on the `test.csv` split, calculates `accuracy`, `precision`,
 
 ---
 
-### 🎙️ Predict Genre for a Single Song
+### Predict Genre for a Single Song
 
 ```bash
 python entrypoints.py inference_song --song=path/to/song.wav
@@ -107,7 +126,7 @@ Predicts the genre of a raw audio file. The audio is automatically:
 
 ---
 
-### 🎛️ Distort Songs Toward "Rock"
+### Distort Songs Toward "Rock"
 
 ```bash
 python entrypoints.py distort_songs --songs=path/to/song/folder/
@@ -117,7 +136,7 @@ Applies genre manipulation logic to nudge audio samples toward the **rock** genr
 
 ---
 
-## 🧪 Metrics Logged
+## Metrics Logged
 
 During testing, the following metrics are logged via **Weights & Biases**:
 
@@ -127,13 +146,13 @@ During testing, the following metrics are logged via **Weights & Biases**:
 - F1 Score (weighted)
 - Full `classification_report` from `sklearn`
 
-## 🤝 Contributing
+## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you'd like to improve.
 
 ---
 
-## 📬 Contact
+## Contact
 
 For questions, feedback, or collaboration inquiries, feel free to open an issue or reach out via email:
 
