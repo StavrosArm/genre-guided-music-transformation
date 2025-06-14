@@ -37,6 +37,7 @@ This project fine-tunes Musicc2Vec model for **music genre classification** usin
 │   ├── average_duration.ipynb
 │   ├── create_mapping.ipynb
 │   ├── cross_appearance.ipynb
+│   ├── csv_file_prep.ipynb
 │   ├── genre_top_per_sample.ipynb
 │   └── process_tracks_csv.ipynb
 ├── png
