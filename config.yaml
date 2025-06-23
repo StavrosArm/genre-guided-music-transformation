@@ -45,7 +45,7 @@ distortion:
   fad_txt: "fad.txt"
   genre: "rock"
   norm_lambda: 1e-3
-  loss: "kl-divergence"
+  loss: "cross-entropy"
   threshold: 0.4
   max_number_of_steps: 100
   optimizer:
