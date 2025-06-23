@@ -34,7 +34,6 @@ def distort_song(config):
     set_seed(config)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-
     model = MusicModel(config).to(device)
     model.load_state_dict(torch.load(f"{config.training.checkpoint_dir}/best_model.pt", map_location=device))
     model.eval()
@@ -48,7 +47,7 @@ def distort_song(config):
     target_index = GENRE_LABELS[target_genre]
     target_onehot = F.one_hot(torch.tensor([target_index]), num_classes=len(GENRE_LABELS)).float().to(device)
 
-    criterion = torch.nn.KLDivLoss(reduction='batchmean')
+    criterion = torch.nn.CrossEntropyLoss()
     norm_lambda = config.distortion.norm_lambda
     threshold = config.distortion.threshold
     max_steps = config.distortion.max_number_of_steps
@@ -71,9 +70,9 @@ def distort_song(config):
             outputs = model(waveform)
             log_probs = F.log_softmax(outputs, dim=1)
 
-            kl_loss = criterion(log_probs, target_onehot)
+            ce_loss = criterion(log_probs, target_onehot)
             proximity_loss = norm_lambda * F.mse_loss(waveform, original_waveform)
-            total_loss = kl_loss + proximity_loss
+            total_loss = ce_loss + proximity_loss
 
             if total_loss.item() < threshold:
                 break
@@ -82,7 +81,7 @@ def distort_song(config):
             optimizer.step()
 
             with torch.no_grad():
-                waveform.clamp(-1.0,  1.0)
+                waveform.clamp(-1.0, 1.0)
 
         save_path = os.path.join(target_dir, os.path.basename(filename))
         torchaudio.save(save_path, waveform.detach().cpu(), 16000)
