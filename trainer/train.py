@@ -16,6 +16,8 @@ def train(config):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     model = MusicModel(config).to(device)
+    if config.model.load_from_checkpoint:
+        model.load_from_checkpoint()
 
     train_data = FMADataset(config)
     val_data = FMADataset(config, mode = "val")

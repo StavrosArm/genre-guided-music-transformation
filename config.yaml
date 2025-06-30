@@ -2,6 +2,7 @@ model:
   model_name: "m-a-p/music2vec-v1"
   hidden_size: 768
   num_labels: 8
+  load_from_checkpoint: True
 
 optimizer:
   optimizer_name: "AdamW"
