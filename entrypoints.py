@@ -45,13 +45,13 @@ def predict(song: str):
 
 
 @cli.command(name="distort_songs")
-@click.option('--songs', required=True, help='Path to the song samples.')
-def distort_songs(songs: str):
+@click.option('--config', required=True, help='Configuration file.', default="config.yaml")
+def distort_songs(config: str = None):
     """Distort a song to match rock genre."""
     click.echo("Initiating song's genre distortion procedure ...")
-    distort_song(songs)
+    config = Config(config)
+    distort_song(config)
     click.echo("Songs genre distortion complete.")
-
 
 if __name__ == '__main__':
     cli()
