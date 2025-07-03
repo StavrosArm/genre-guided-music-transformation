@@ -42,7 +42,6 @@ def distort_song(config):
     audio_dir = config.distortion.audio_dir
     target_dir = config.distortion.target_dir
 
-    print(audio_dir, )
     os.makedirs(target_dir, exist_ok=True)
 
     target_genre = config.distortion.genre
@@ -76,13 +75,15 @@ def distort_song(config):
         for step in range(max_steps):
             optimizer.zero_grad()
             outputs = model(waveform)
-            log_probs = F.log_softmax(outputs, dim=1)
 
-            ce_loss = criterion(log_probs, target_onehot)
+            ce_loss = criterion(outputs, target_onehot)
             proximity_loss = norm_lambda * F.mse_loss(waveform, original_waveform)
             total_loss = ce_loss + proximity_loss
 
-            if total_loss.item() < threshold:
+            probs = F.softmax(outputs, dim=1)
+            target_prob = probs[0, target_index].item()
+
+            if target_prob >= threshold:
                 break
 
             total_loss.backward()
@@ -91,7 +92,8 @@ def distort_song(config):
             with torch.no_grad():
                 waveform.clamp(-1.0, 1.0)
 
-            print(f"[{step}] CE: {ce_loss.item():.4f}, Proximity: {proximity_loss.item():.4f}, Total: {total_loss.item():.4f}")
+            print(
+                f"[{step}] CE: {ce_loss.item():.4f}, Proximity: {proximity_loss.item():.4f}, Total: {total_loss.item():.4f}")
             print(f"Waveform diff: {F.mse_loss(waveform, original_waveform).item():.6f}")
 
         save_path = os.path.join(target_dir, os.path.basename(filename))
