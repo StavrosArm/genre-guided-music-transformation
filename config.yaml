@@ -47,10 +47,11 @@ distortion:
   audio_dir: "fma_small/"
   target_dir: "distortion/"
   fad_txt: "fad.txt"
-  genre: "instrumental"
+  genre: "rock"
   norm_lambda: 1e-9
   loss: "cross-entropy"
   threshold: 0.99
+  sampling_rate: 16000
   max_number_of_steps: 1000
   optimizer:
     optimizer_name: "AdamW"
