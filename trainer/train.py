@@ -14,7 +14,6 @@ from factories.optimizer import get_optimizer, get_scheduler
 def train(config):
     set_seed(config)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
     model = MusicModel(config).to(device)
     if config.model.load_from_checkpoint:
         model.load_from_checkpoint()

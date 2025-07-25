@@ -1,17 +1,18 @@
 model:
   model_name: "facebook/wav2vec2-base"
   hidden_size: 768
+  classification_dim: 512
   num_labels: 8
   load_from_checkpoint: True
 
 optimizer:
   optimizer_name: "AdamW"
-  lr: 3e-5
-  weight_decay: 1e-5
-  scheduler: "LambdaLR"
-  warmup_steps: 0.1
-  cut_epochs: 3
+  cut_epochs: 5
   gamma: 0.5
+  lr: 5e-4
+  weight_decay: 0.0
+  scheduler: "StepLR"
+  warmup_steps: 0.05
 
 dataset:
   audio_dir: "fma_small"
@@ -27,9 +28,9 @@ loss:
 
 training:
   batch_size: 16
-  epochs: 10
-  seed: 42
-  dropout_prob: 0.3
+  epochs: 20
+  seed: 24
+  dropout_prob: 0.4
   patience: 5
   checkpoint_dir: "checkpoints/"
 
@@ -38,7 +39,7 @@ experiment:
   log_every_n_steps: 10
   experiment_group: "sta-armeniakos-athens-university-of-economics-and-business"
   project: "deep-learning"
-  experiment_name: "experiment-lr-1e-3"
+  experiment_name: "wav2vec-seed-24-no-noise-resume "
 
 distortion:
   model_name: "mtg-upf/discogs-maest-10s-pw-129e"
@@ -46,14 +47,14 @@ distortion:
   audio_dir: "fma_small/"
   target_dir: "distortion/"
   fad_txt: "fad.txt"
-  genre: "rock"
+  genre: "instrumental"
   norm_lambda: 1e-9
   loss: "cross-entropy"
-  threshold: 0.4
-  max_number_of_steps: 100
+  threshold: 0.99
+  max_number_of_steps: 1000
   optimizer:
     optimizer_name: "AdamW"
-    lr: 1
+    lr: 1e-1
     weight_decay: 0.0
 
 

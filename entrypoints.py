@@ -23,11 +23,11 @@ def initiate_training(config_path: str):
 
 
 @cli.command(name="initiate_testing")
-@click.option('--config_path', required=True, help='Path to the configuration file.')
-def initiate_testing(path: str):
+@click.option('--config_path', required=True, help='Path to the configuration file.', default = "config.yaml")
+def initiate_testing(config_path: str):
     """ Inferences the model on the test set and logs them to wandb. """
     click.echo("Loading configuration ...")
-    config = Config(path)
+    config = Config(config_path)
     click.echo("Initiating testing procedure ...")
     test(config)
     evaluate_music_quality(config)

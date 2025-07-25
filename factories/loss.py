@@ -8,6 +8,6 @@ def get_loss_function(config):
     :return: The loss function, bce or cross entropy based on the configuration.
     """
     if config.loss.type == "cross-entropy":
-        return nn.CrossEntropyLoss()
+        return nn.CrossEntropyLoss(reduction="mean")
     elif config.loss.type == "bce":
         return nn.BCEWithLogitsLoss()

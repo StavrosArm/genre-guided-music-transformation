@@ -35,7 +35,7 @@ def get_scheduler(config, steps_per_epoch, optimizer):
     scheduler_name = config.optimizer.scheduler.lower()
     total_epochs = config.training.epochs
 
-    if scheduler_name == "LambdaLR":
+    if scheduler_name == "lambdalr":
         total_steps = total_epochs * steps_per_epoch
         warmup_steps = config.optimizer.warmup_steps * total_steps
 
@@ -46,7 +46,7 @@ def get_scheduler(config, steps_per_epoch, optimizer):
 
         return LambdaLR(optimizer, lr_lambda=lr_lambda)
 
-    elif scheduler_name == "StepLR":
+    elif scheduler_name == "steplr":
         step_size = config.optimizer.cut_epochs * steps_per_epoch
         return StepLR(optimizer, step_size=step_size, gamma = float(config.optimizer.gamma))
 
