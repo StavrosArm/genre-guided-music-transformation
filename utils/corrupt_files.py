@@ -2,6 +2,7 @@ import pandas as pd
 import torchaudio
 import os
 
+
 def corrupt_audio(csv_path, path_column="path_to_audio"):
     """
     Removes corrupted audio files from a CSV and rewrites the file in-place.
@@ -16,7 +17,7 @@ def corrupt_audio(csv_path, path_column="path_to_audio"):
     for i, row in df.iterrows():
         audio_path = row[path_column]
         try:
-            torchaudio.load("fma_small/"+audio_path)
+            torchaudio.load("fma_small/" + audio_path)
             valid_rows.append(row)
         except Exception as e:
             print(f"[CORRUPT] {audio_path}: {e}")
@@ -24,6 +25,7 @@ def corrupt_audio(csv_path, path_column="path_to_audio"):
     cleaned_df = pd.DataFrame(valid_rows)
     cleaned_df.to_csv(csv_path, index=False)
     print(f"Cleaned CSV written to {csv_path} ({len(cleaned_df)} valid entries)")
+
 
 if __name__ == "__main__":
     for split in ["train", "val", "test"]:

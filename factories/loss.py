@@ -1,5 +1,6 @@
 import torch.nn as nn
 
+
 def get_loss_function(config):
     """
     Returns the loss function

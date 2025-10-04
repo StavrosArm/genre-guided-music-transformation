@@ -23,14 +23,14 @@ def get_optimizer(config, model_params):
 
 def get_scheduler(config, steps_per_epoch, optimizer):
     """
-        Creates and returns a linear learning rate scheduler with optional warmup using PyTorch's LambdaLR.
+    Creates and returns a linear learning rate scheduler with optional warmup using PyTorch's LambdaLR.
 
-        :param config: Configuration object containing scheduler settings, such as scheduler type,
-                       number of epochs, warmup steps, and steps per epoch.
-        :param optimizer: The optimizer instance to apply the learning rate schedule to.
-        :param steps_per_epoch: The number of steps per epoch.
-        :return: A torch.optim.lr_scheduler.LambdaLR scheduler instance, or None if scheduler is disabled.
-        :raises ValueError: If the scheduler name is unsupported.
+    :param config: Configuration object containing scheduler settings, such as scheduler type,
+                   number of epochs, warmup steps, and steps per epoch.
+    :param optimizer: The optimizer instance to apply the learning rate schedule to.
+    :param steps_per_epoch: The number of steps per epoch.
+    :return: A torch.optim.lr_scheduler.LambdaLR scheduler instance, or None if scheduler is disabled.
+    :raises ValueError: If the scheduler name is unsupported.
     """
     scheduler_name = config.optimizer.scheduler.lower()
     total_epochs = config.training.epochs
@@ -42,13 +42,19 @@ def get_scheduler(config, steps_per_epoch, optimizer):
         def lr_lambda(current_step):
             if current_step < warmup_steps:
                 return float(current_step) / float(max(1, warmup_steps))
-            return max(0.0, float(total_steps - current_step) / float(max(1, total_steps - warmup_steps)))
+            return max(
+                0.0,
+                float(total_steps - current_step)
+                / float(max(1, total_steps - warmup_steps)),
+            )
 
         return LambdaLR(optimizer, lr_lambda=lr_lambda)
 
     elif scheduler_name == "steplr":
         step_size = config.optimizer.cut_epochs * steps_per_epoch
-        return StepLR(optimizer, step_size=step_size, gamma = float(config.optimizer.gamma))
+        return StepLR(
+            optimizer, step_size=step_size, gamma=float(config.optimizer.gamma)
+        )
 
     elif scheduler_name in ["", "none", None]:
         return None

@@ -1,7 +1,16 @@
 import torch
 import torchaudio
 
-def prepare_audio(audio: torch.Tensor, sample_rate: int, start: int, end: int, noise_ratio, target_sr=16000, fixed_length=160000) -> torch.Tensor:
+
+def prepare_audio(
+    audio: torch.Tensor,
+    sample_rate: int,
+    start: int,
+    end: int,
+    noise_ratio,
+    target_sr=16000,
+    fixed_length=160000,
+) -> torch.Tensor:
     """
     Grabs the input waveform, converts it to mono, resamples it to 16kHz takes only the given interval of time and applies Gaussian Noise based on the ratio.
 
@@ -19,7 +28,9 @@ def prepare_audio(audio: torch.Tensor, sample_rate: int, start: int, end: int, n
         audio = torch.mean(audio, dim=0, keepdim=True)
 
     if sample_rate != target_sr:
-        resampler = torchaudio.transforms.Resample(orig_freq=sample_rate, new_freq=target_sr)
+        resampler = torchaudio.transforms.Resample(
+            orig_freq=sample_rate, new_freq=target_sr
+        )
         audio = resampler(audio)
 
     audio = audio[:, start:end]
@@ -35,5 +46,3 @@ def prepare_audio(audio: torch.Tensor, sample_rate: int, start: int, end: int, n
     #     audio = audio + noise
 
     return audio.squeeze(0).clamp(-1.0, 1.0)
-
-

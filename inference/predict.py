@@ -12,8 +12,9 @@ GENRE_LABELS = {
     4: "international",
     5: "jazz",
     6: "pop",
-    7: "rock"
+    7: "rock",
 }
+
 
 def predict_song(audio_path: str):
     """
@@ -23,7 +24,7 @@ def predict_song(audio_path: str):
     :return: A string with the predicted genre
     """
     audio, sr = torchaudio.load(audio_path)
-    audio = prepare_audio(audio, sr,0, 160000, 0.0).numpy().astype(np.float32)
+    audio = prepare_audio(audio, sr, 0, 160000, 0.0).numpy().astype(np.float32)
 
     input = audio[np.newaxis, np.newaxis, :]
 
@@ -33,15 +34,4 @@ def predict_song(audio_path: str):
     output = ort_session.run(None, {input_name: input})
 
     genre = np.argmax(output[0])
-    return f'The genre of the song is {GENRE_LABELS[genre]}', genre
-
-
-
-
-
-
-
-
-
-
-
+    return f"The genre of the song is {GENRE_LABELS[genre]}", genre

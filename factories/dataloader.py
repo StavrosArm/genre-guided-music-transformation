@@ -1,5 +1,6 @@
 from torch.utils.data import DataLoader
 
+
 def get_dataloader(dataset, batch_size, num_workers, shuffle):
     """
     Returns the dataloader.
@@ -10,6 +11,7 @@ def get_dataloader(dataset, batch_size, num_workers, shuffle):
     :param shuffle: Whether to shuffle the dataset.
     :return: The dataloader.
     """
-    dataloader = DataLoader(dataset, batch_size=batch_size, num_workers=num_workers, shuffle=shuffle)
+    dataloader = DataLoader(
+        dataset, batch_size=batch_size, num_workers=num_workers, shuffle=shuffle
+    )
     return dataloader
-

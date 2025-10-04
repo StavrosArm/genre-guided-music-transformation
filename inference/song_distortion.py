@@ -19,7 +19,7 @@ GENRE_LABELS = {
     "international": 4,
     "jazz": 5,
     "pop": 6,
-    "rock": 7
+    "rock": 7,
 }
 
 
@@ -35,7 +35,11 @@ def distort_song(config):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     model = MusicModel(config).to(device)
-    model.load_state_dict(torch.load(f"{config.training.checkpoint_dir}/best_model.pt", map_location=device))
+    model.load_state_dict(
+        torch.load(
+            f"{config.training.checkpoint_dir}/best_model.pt", map_location=device
+        )
+    )
     model.eval()
 
     df = pd.read_csv(config.distortion.audios_csv)
@@ -46,7 +50,11 @@ def distort_song(config):
 
     target_genre = config.distortion.genre
     target_index = GENRE_LABELS[target_genre]
-    target_onehot = F.one_hot(torch.tensor([target_index]), num_classes=len(GENRE_LABELS)).float().to(device)
+    target_onehot = (
+        F.one_hot(torch.tensor([target_index]), num_classes=len(GENRE_LABELS))
+        .float()
+        .to(device)
+    )
 
     criterion = torch.nn.CrossEntropyLoss()
     norm_lambda = float(config.distortion.norm_lambda)
@@ -93,8 +101,11 @@ def distort_song(config):
                 waveform.clamp(-1.0, 1.0)
 
             print(
-                f"[{step}] CE: {ce_loss.item():.4f}, Proximity: {proximity_loss.item():.4f}, Total: {total_loss.item():.4f}")
-            print(f"Waveform diff: {F.mse_loss(waveform, original_waveform).item():.6f}")
+                f"[{step}] CE: {ce_loss.item():.4f}, Proximity: {proximity_loss.item():.4f}, Total: {total_loss.item():.4f}"
+            )
+            print(
+                f"Waveform diff: {F.mse_loss(waveform, original_waveform).item():.6f}"
+            )
 
         save_path = os.path.join(target_dir, os.path.basename(filename))
         torchaudio.save(save_path, waveform.detach().cpu(), 16000)

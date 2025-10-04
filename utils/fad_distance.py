@@ -2,7 +2,9 @@ import numpy as np
 from scipy.linalg import sqrtm
 
 
-def calculate_fad_distance(embeddings_real_rock: np.ndarray, embeddings_distorted_rock: np.ndarray) -> float:
+def calculate_fad_distance(
+    embeddings_real_rock: np.ndarray, embeddings_distorted_rock: np.ndarray
+) -> float:
     """
     Compute the Fréchet Audio Distance (FAD) between two sets of embeddings.
 
@@ -10,8 +12,12 @@ def calculate_fad_distance(embeddings_real_rock: np.ndarray, embeddings_distorte
     :param embeddings_distorted_rock: Embeddings created by distorted rock music
     """
 
-    assert embeddings_real_rock.ndim == 2 and embeddings_distorted_rock.ndim == 2, "Embeddings must be 2D arrays."
-    assert embeddings_real_rock.shape[1] == embeddings_distorted_rock.shape[1], "Embedding dimensions must match."
+    assert (
+        embeddings_real_rock.ndim == 2 and embeddings_distorted_rock.ndim == 2
+    ), "Embeddings must be 2D arrays."
+    assert (
+        embeddings_real_rock.shape[1] == embeddings_distorted_rock.shape[1]
+    ), "Embedding dimensions must match."
 
     mu_real = np.mean(embeddings_real_rock, axis=0)
     sigma_real = np.cov(embeddings_real_rock, rowvar=False)

@@ -11,10 +11,12 @@ class Maest(torch.nn.Module):
     def __init__(self, config):
         super(Maest, self).__init__()
         self.config = config
-        self.feature_extractor = AutoFeatureExtractor.from_pretrained(self.config.distortion.model_name,
-                                                                      trust_remote_code=True)
-        self.encoder = AutoModelForAudioClassification.from_pretrained(self.config.distortion.model_name,
-                                                                       trust_remote_code=True).audio_spectrogram_transformer
+        self.feature_extractor = AutoFeatureExtractor.from_pretrained(
+            self.config.distortion.model_name, trust_remote_code=True
+        )
+        self.encoder = AutoModelForAudioClassification.from_pretrained(
+            self.config.distortion.model_name, trust_remote_code=True
+        ).audio_spectrogram_transformer
 
     def forward(self, audio: torch.Tensor) -> torch.Tensor:
         """
@@ -22,7 +24,11 @@ class Maest(torch.nn.Module):
 
         :return: Tensor with the classification embedding
         """
-        inputs = self.feature_extractor(audio, sampling_rate=self.config.distortion.sampling_rate, return_tensors="pt")
+        inputs = self.feature_extractor(
+            audio,
+            sampling_rate=self.config.distortion.sampling_rate,
+            return_tensors="pt",
+        )
 
         with torch.no_grad():
             outputs = self.encoder(**inputs)
@@ -33,7 +39,7 @@ class Maest(torch.nn.Module):
     import torchaudio
 
     def get_embeddings_for_fad_distance(
-            self, audio_ref_path: str, audio_gen_path: str
+        self, audio_ref_path: str, audio_gen_path: str
     ) -> Tuple[np.ndarray, np.ndarray]:
         """
         Loads audio from file paths, processes them, and returns full hidden states
@@ -53,7 +59,9 @@ class Maest(torch.nn.Module):
                 waveform = waveform.mean(dim=0, keepdim=True)
             # Resample if needed
             if sr != target_sr:
-                resampler = torchaudio.transforms.Resample(orig_freq=sr, new_freq=target_sr)
+                resampler = torchaudio.transforms.Resample(
+                    orig_freq=sr, new_freq=target_sr
+                )
                 waveform = resampler(waveform)
             return waveform.squeeze()  # remove channel dimension
 
@@ -61,15 +69,23 @@ class Maest(torch.nn.Module):
         audio_gen = load_and_resample(audio_gen_path)
 
         # Feature extraction and encoding
-        inputs_ref = self.feature_extractor(audio_ref, sampling_rate=target_sr, return_tensors="pt")
+        inputs_ref = self.feature_extractor(
+            audio_ref, sampling_rate=target_sr, return_tensors="pt"
+        )
         with torch.no_grad():
             outputs_ref = self.encoder(**inputs_ref)
-        hidden_states_ref = outputs_ref.last_hidden_state.squeeze(0).detach().cpu().numpy()
+        hidden_states_ref = (
+            outputs_ref.last_hidden_state.squeeze(0).detach().cpu().numpy()
+        )
 
-        inputs_gen = self.feature_extractor(audio_gen, sampling_rate=target_sr, return_tensors="pt")
+        inputs_gen = self.feature_extractor(
+            audio_gen, sampling_rate=target_sr, return_tensors="pt"
+        )
         with torch.no_grad():
             outputs_gen = self.encoder(**inputs_gen)
-        hidden_states_gen = outputs_gen.last_hidden_state.squeeze(0).detach().cpu().numpy()
+        hidden_states_gen = (
+            outputs_gen.last_hidden_state.squeeze(0).detach().cpu().numpy()
+        )
 
         return hidden_states_ref, hidden_states_gen
 
@@ -77,8 +93,7 @@ class Maest(torch.nn.Module):
 if __name__ == "__main__":
     config = SimpleNamespace(
         distortion=SimpleNamespace(
-            model_name="mtg-upf/discogs-maest-10s-pw-129e",
-            sampling_rate=16000
+            model_name="mtg-upf/discogs-maest-10s-pw-129e", sampling_rate=16000
         )
     )
 
