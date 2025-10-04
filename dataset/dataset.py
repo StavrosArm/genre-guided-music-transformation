@@ -7,7 +7,7 @@ import os
 
 
 class FMADataset(Dataset):
-    def __init__(self, config, mode = "train", target_sr=16000):
+    def __init__(self, config, mode="train", target_sr=16000):
         """
         csv_path: path to the metadata CSV
         audio_dir: base directory for audio files
@@ -27,7 +27,7 @@ class FMADataset(Dataset):
         self.df = pd.read_csv(csv_path)
         self.audio_dir = self.config.dataset.audio_dir
         self.target_sr = target_sr
-        unique_labels = sorted(self.df['genre_top'].dropna().unique())
+        unique_labels = sorted(self.df["genre_top"].dropna().unique())
         self.label_to_idx = {label: idx for idx, label in enumerate(unique_labels)}
 
     def __len__(self):
@@ -35,20 +35,20 @@ class FMADataset(Dataset):
 
     def __getitem__(self, idx):
         row = self.df.iloc[idx]
-        audio_path = os.path.join(self.audio_dir, row['path_to_audio'])
+        audio_path = os.path.join(self.audio_dir, row["path_to_audio"])
         try:
             waveform, sr = torchaudio.load(audio_path)
 
             audio = prepare_audio(
                 waveform,
                 sr,
-                int(row['start']),
-                int(row['end']),
-                float(row['noise_ratio']),
-                target_sr=self.target_sr
+                int(row["start"]),
+                int(row["end"]),
+                float(row["noise_ratio"]),
+                target_sr=self.target_sr,
             )
 
-            label = self.label_to_idx[row['genre_top']]
+            label = self.label_to_idx[row["genre_top"]]
             return audio, label
         except Exception as e:
             warnings.warn(f"Failed to load audio from {audio_path}: {e}")

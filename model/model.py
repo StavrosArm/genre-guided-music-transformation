@@ -26,10 +26,14 @@ class MusicModel(nn.Module):
         self.classifier = nn.Sequential(
             nn.GELU(),
             nn.Dropout(self.config.training.dropout_prob),
-            nn.Linear(self.config.model.hidden_size, self.config.model.classification_dim),
+            nn.Linear(
+                self.config.model.hidden_size, self.config.model.classification_dim
+            ),
             nn.GELU(),
             nn.Dropout(self.config.training.dropout_prob),
-            nn.Linear(self.config.model.classification_dim, self.config.model.num_labels)
+            nn.Linear(
+                self.config.model.classification_dim, self.config.model.num_labels
+            ),
         )
 
     def load_from_checkpoint(self, filename="best_model.pt"):
@@ -42,7 +46,7 @@ class MusicModel(nn.Module):
         hidden_states = outputs.last_hidden_state
         max_pooled, _ = hidden_states.max(dim=1)
         mean_pooled = hidden_states.mean(dim=1)
-        pooled = (max_pooled + mean_pooled)/2.0
+        pooled = (max_pooled + mean_pooled) / 2.0
         logits = self.classifier(pooled)
         return logits
 
@@ -53,11 +57,9 @@ if __name__ == "__main__":
         model_name="facebook/wav2vec2-base",
         hidden_size=768,
         classification_dim=512,
-        num_labels=8
+        num_labels=8,
     )
-    config.training = SimpleNamespace(
-        dropout_prob=0.1
-    )
+    config.training = SimpleNamespace(dropout_prob=0.1)
 
     model = MusicModel(config)
     print(model)

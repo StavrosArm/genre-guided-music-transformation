@@ -2,6 +2,7 @@ import torch
 import numpy as np
 import random
 
+
 def set_seed(config):
     """
     Sets all the random seeds to the one provided in the configuration file.

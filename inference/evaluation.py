@@ -1,6 +1,10 @@
 import torch
 from tqdm import tqdm
-from sklearn.metrics import accuracy_score, precision_recall_fscore_support, classification_report
+from sklearn.metrics import (
+    accuracy_score,
+    precision_recall_fscore_support,
+    classification_report,
+)
 import wandb
 
 from model.model import MusicModel
@@ -20,7 +24,11 @@ def evaluate_music_quality(config):
     :return: The FAD of real music embeddings and distorted music embeddings.
     """
     embeddings_model = Maest(config)
-    real_embeddings, distorted_embeddings = embeddings_model.get_embeddings_for_fad_distance("fma_small/040/040845.mp3", "distortion/040845.mp3")
+    real_embeddings, distorted_embeddings = (
+        embeddings_model.get_embeddings_for_fad_distance(
+            "fma_small/040/040845.mp3", "distortion/040845.mp3"
+        )
+    )
     fad_distance = calculate_fad_distance(real_embeddings, distorted_embeddings)
     with open(config.distortion.fad_txt, "a") as f:
         f.write(f"FAD Distance: {fad_distance:.6f}\n")
@@ -37,7 +45,9 @@ def test(config):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     test_data = FMADataset(config, mode="val")
-    test_loader = get_dataloader(test_data, batch_size=config.training.batch_size, num_workers=1, shuffle=False)
+    test_loader = get_dataloader(
+        test_data, batch_size=config.training.batch_size, num_workers=1, shuffle=False
+    )
 
     model = MusicModel(config).to(device)
     checkpoint_path = f"{config.training.checkpoint_dir}/best_model.pt"
@@ -60,7 +70,9 @@ def test(config):
             all_labels.extend(labels.cpu().numpy())
 
     acc = accuracy_score(all_labels, all_preds)
-    precision, recall, f1, _ = precision_recall_fscore_support(all_labels, all_preds, average="weighted")
+    precision, recall, f1, _ = precision_recall_fscore_support(
+        all_labels, all_preds, average="weighted"
+    )
     report = classification_report(all_labels, all_preds, digits=4, output_dict=True)
 
     if config.experiment.log == "wandb":
@@ -70,13 +82,15 @@ def test(config):
             name=f"{config.experiment.experiment_name}_test",
             config=config.__dict__,
         )
-        wandb.log({
-            "test/accuracy": acc,
-            "test/precision": precision,
-            "test/recall": recall,
-            "test/f1": f1,
-            "test/cls_report": report
-        })
+        wandb.log(
+            {
+                "test/accuracy": acc,
+                "test/precision": precision,
+                "test/recall": recall,
+                "test/f1": f1,
+                "test/cls_report": report,
+            }
+        )
         wandb.finish()
 
     return {

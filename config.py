@@ -1,5 +1,6 @@
 import yaml
 
+
 class Namespace:
     def __init__(self, dictionary):
         for key, value in dictionary.items():
@@ -21,10 +22,18 @@ class Config:
         self.load_config()
 
     def load_config(self):
-        with open(self.config_path, 'r') as f:
+        with open(self.config_path, "r") as f:
             cfg = yaml.safe_load(f)
 
-        for section in ["model", "optimizer", "loss", "dataset", "training", "experiment", "distortion"]:
+        for section in [
+            "model",
+            "optimizer",
+            "loss",
+            "dataset",
+            "training",
+            "experiment",
+            "distortion",
+        ]:
             setattr(self, section, Namespace(cfg.get(section, {})))
 
     def __repr__(self):
