@@ -5,7 +5,7 @@ This project fine-tunes Musicc2Vec model for **music genre classification** usin
 
 ## Key Features
 
-- Fine-tunes a Music2Vec 2.0 model on raw waveform data
+- Fine-tunes a Wav2Vec 2.0 model on raw waveform data
 - Supports training, evaluation, prediction, and genre manipulation
 - Full experiment tracking with **Weights & Biases**
 - Evaluation with **scikit-learn** classification metrics
@@ -116,20 +116,7 @@ python entrypoints.py initiate_testing --config_path=config.yaml
 
 Evaluates the model on the `test.csv` split, calculates `accuracy`, `precision`, `recall`, and `F1` using `sklearn`, and logs results to **WandB** under the `"test"` section.s
 
----
 
-### Predict Genre for a Single Song
-
-```bash
-python entrypoints.py inference_song --song=path/to/song.wav
-```
-
-Predicts the genre of a raw audio file. The audio is automatically:
-- Resampled to **16kHz**
-- Converted to **mono**
-- Passed through the ONNX model for inference
-
----
 
 ### Distort Songs Toward "Rock"
 
