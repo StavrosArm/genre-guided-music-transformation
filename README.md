@@ -85,8 +85,8 @@ pip install -r requirements.txt
 
 ## Data and Model Weights
 
-- **Dataset CSVs**: [Download CSVs (train, val, test)](https://your-dataset-link.com)
-- **Model Weights**: [Pretrained model checkpoint](https://your-model-weights-link.com)
+- **Dataset CSVs**: [Download CSVs (train, val, test)](https://drive.google.com/drive/u/1/folders/1SaG00pAggCp5fNp5boqnFNlXrbX9p2_2)
+- **Model Weights**: [Pretrained model checkpoint](https://drive.google.com/drive/u/1/folders/103aqLej1hqtioogV3ybblq814eh9d9n1)
 
 Ensure your `config.yaml` points to the correct CSVs and checkpoint paths.
 
